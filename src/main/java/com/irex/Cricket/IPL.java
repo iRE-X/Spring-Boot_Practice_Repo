@@ -7,12 +7,32 @@ import java.util.Random;
 
 public class IPL {
     private final CricketTeam[] teams;
+    private final ArrayList<Match> matchSchedules;
 
     public IPL(CricketTeam[] teams) {
         this.teams = teams;
+        this.matchSchedules = generateMatchSchedules();
     }
 
     public ArrayList<Match> getMatchSchedules() {
+        return matchSchedules;
+    }
+
+    public Match getMatchOnDay(int day) {
+        if(day > matchSchedules.size()) return null;
+        return matchSchedules.get(day - 1);
+    }
+
+    public ArrayList<Match> getMatchesByTeamName(String teamName) {
+        ArrayList<Match> res = new ArrayList<>();
+        for(Match match : matchSchedules) {
+            if(match.teamA().equalsIgnoreCase(teamName) || match.teamB().equalsIgnoreCase(teamName))
+                res.add(match);
+        }
+        return res;
+    }
+
+    private ArrayList<Match> generateMatchSchedules() {
         int groupLength = teams.length / 2;
         Queue<int[]> queue = new ArrayDeque<>();
 
