@@ -49,17 +49,9 @@ public class IPLController {
         return ipl.getTeams();
     }
 
-    @GetMapping("/insert-teams-into-database")
-    public String fetchTeams() {
-        for(CricketTeam team : CricketTeam.getTeams())
-            cricketTeamService.createCricketTeam(team);
-
-        return "Successfully Inserted all Cricket Teams into Database...\nYou can now play around..";
-    }
-
     private void refresh() {
         List<CricketTeam> teams = cricketTeamService.findAll();
-        if(ipl == null || (ipl.getTeams().size() != teams.size()))
+        if(ipl == null || ipl.getTeams().size() != teams.size() || ipl.getMatchSchedules().isEmpty())
             ipl = new IPL(teams);
     }
 }

@@ -34,7 +34,7 @@ public class IPL {
     }
 
     private List<Match> generateMatchSchedules() {
-        if(teams.size() < 10) return null;
+        if(teams.size() < 10) return new ArrayList<>();
 
         int groupLength = teams.size() / 2;
         Queue<int[]> queue = new ArrayDeque<>();

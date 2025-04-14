@@ -28,6 +28,14 @@ public class CricketTeamController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/insert-teams-into-database")
+    public String fetchTeams() {
+        for(CricketTeam team : CricketTeam.getTeams())
+            cricketTeamService.createCricketTeam(team);
+
+        return "Successfully Inserted all Cricket Teams into Database...\nYou can now play around..";
+    }
+
     @PostMapping("/teams")
     public ResponseEntity<String> createCricketTeam(@RequestBody CricketTeam team) {
         cricketTeamService.createCricketTeam(team);
