@@ -1,20 +1,21 @@
-package com.irex.Cricket;
+package com.irex.FirstSpring.Cricket;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Queue;
-import java.util.Random;
+import java.util.*;
 
 public class IPL {
-    private final CricketTeam[] teams;
-    private final ArrayList<Match> matchSchedules;
+    private final List<CricketTeam> teams;
+    private final List<Match> matchSchedules;
 
-    public IPL(CricketTeam[] teams) {
+    public IPL(List<CricketTeam> teams) {
         this.teams = teams;
         this.matchSchedules = generateMatchSchedules();
     }
 
-    public ArrayList<Match> getMatchSchedules() {
+    public List<CricketTeam> getTeams() {
+        return this.teams;
+    }
+
+    public List<Match> getMatchSchedules() {
         return matchSchedules;
     }
 
@@ -23,8 +24,8 @@ public class IPL {
         return matchSchedules.get(day - 1);
     }
 
-    public ArrayList<Match> getMatchesByTeamName(String teamName) {
-        ArrayList<Match> res = new ArrayList<>();
+    public List<Match> getMatchesByTeamName(String teamName) {
+        List<Match> res = new ArrayList<>();
         for(Match match : matchSchedules) {
             if(match.teamA().equalsIgnoreCase(teamName) || match.teamB().equalsIgnoreCase(teamName))
                 res.add(match);
@@ -32,8 +33,10 @@ public class IPL {
         return res;
     }
 
-    private ArrayList<Match> generateMatchSchedules() {
-        int groupLength = teams.length / 2;
+    private List<Match> generateMatchSchedules() {
+        if(teams.size() < 10) return null;
+
+        int groupLength = teams.size() / 2;
         Queue<int[]> queue = new ArrayDeque<>();
 
         int[][] intra = getIntraGroupCombinations(groupLength);
@@ -50,7 +53,7 @@ public class IPL {
         return getSchedules(queue, teams);
     }
 
-    private ArrayList<Match> getSchedules(Queue<int[]> queue, CricketTeam[] teams) {
+    private ArrayList<Match> getSchedules(Queue<int[]> queue, List<CricketTeam> teams) {
         int prevA = -1, prevB = -1;
         int day = 1;
         ArrayList<Match> res = new ArrayList<>();
@@ -59,7 +62,7 @@ public class IPL {
             int[] pair = queue.poll();
             int a = pair[0], b = pair[1];
 
-            if(prevA == a || prevB == a || prevA == b || prevB == b) {
+            if (prevA == a || prevB == a || prevA == b || prevB == b) {
                 queue.offer(pair);
                 continue;
             }
@@ -67,7 +70,7 @@ public class IPL {
             prevA = a;
             prevB = b;
 
-            res.add(new Match(day++, teams[a].getTeamName(), teams[b].getTeamName(), teams[a].getHometown()));
+            res.add(new Match(day++, teams.get(a).getTeamName(), teams.get(b).getTeamName(), teams.get(a).getHometown()));
         }
 
         return res;

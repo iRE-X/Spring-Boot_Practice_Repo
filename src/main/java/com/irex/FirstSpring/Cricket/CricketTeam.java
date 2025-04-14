@@ -1,10 +1,28 @@
-package com.irex.Cricket;
+package com.irex.FirstSpring.Cricket;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class CricketTeam {
-    private final String teamName;
-    private final String hometown;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String teamName;
+    private String hometown;
+
+    public CricketTeam() {
+    }
 
     public CricketTeam(String teamName, String hometown) {
+        this.teamName = teamName;
+        this.hometown = hometown;
+    }
+
+    public CricketTeam(Integer id, String teamName, String hometown) {
+        this.id = id;
         this.teamName = teamName;
         this.hometown = hometown;
     }
@@ -15,6 +33,10 @@ public class CricketTeam {
 
     public String getTeamName() {
         return teamName;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public static CricketTeam[] getTeams() {
